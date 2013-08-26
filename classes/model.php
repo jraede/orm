@@ -1896,7 +1896,7 @@ class Model implements \ArrayAccess, \Iterator
 				{
 					foreach ($rel as $id => $r)
 					{
-						$array[$name][$id] = $r->to_array($custom, true);
+						$array[$name][] = $r->to_array($custom, true);
 					}
 					static::$to_array_references[] = get_class($r);
 				}
