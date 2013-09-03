@@ -1311,6 +1311,32 @@ class Query
 	}
 
 	/**
+	 * This method gets an array of the values of a column for use in pagination where you have filters on related models
+	 * and it's much more complicated to add offset and limit. For example, you get the total, get the IDs, apply offset + limit
+	 * with PHP, and then add where('id', 'IN', $ids) to the final query to do "bogus" pagination
+	 * 
+	 * @param  string $column Column to get the value(s) of. Defaults to primary key
+	 * @return array array of values
+	 * @author  Jason Raede <jason.raede@gmail.com>
+	 */
+	public function values($column = null) {
+		$select = $column ?: \Arr::get(call_user_func($this->model.'::primary_key'), 0);
+
+
+		$aliased = (strpos($select, '.') === false ? $this->alias.'.'.$select : $select);
+
+		// Remove the current select and
+		$query = \DB::select($aliased);
+
+		// Set from view or table
+		$query->from(array($this->_table(), $this->alias));
+
+		$tmp   = $this->build_query($query, $aliased, 'select');
+		$query = $tmp['query'];
+		return array_keys($query->execute($this->connection)->as_array($select));
+	}
+
+	/**
 	 * Get the maximum of a column for the current query
 	 *
 	 * @param   string      $column Column
