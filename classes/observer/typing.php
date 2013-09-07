@@ -464,6 +464,7 @@ class Observer_Typing
 	 */
 	public static function type_json_encode($var, array $settings)
 	{
+		\Log::debug('Running json encode on '.var_export($var, true));
 		$var = json_encode($var);
 
 		if (array_key_exists('character_maximum_length', $settings))

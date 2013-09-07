@@ -1889,6 +1889,7 @@ class Model implements \ArrayAccess, \Iterator
 		// convert relations
 		foreach ($this->_data_relations as $name => $rel)
 		{
+
 			if (is_array($rel))
 			{
 				$array[$name] = array();
@@ -1896,7 +1897,8 @@ class Model implements \ArrayAccess, \Iterator
 				{
 					foreach ($rel as $id => $r)
 					{
-						$array[$name][$id] = $r->to_array($custom, true);
+
+						$array[$name][] = $r->to_array($custom, true);
 					}
 					static::$to_array_references[] = get_class($r);
 				}
@@ -1911,8 +1913,8 @@ class Model implements \ArrayAccess, \Iterator
 					}
 					else
 					{
-						$array[$name] = $rel->to_array($custom, true);
 						static::$to_array_references[] = get_class($rel);
+						$array[$name] = $rel->to_array($custom, true);					
 					}
 				}
 			}
