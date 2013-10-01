@@ -1575,7 +1575,7 @@ class Model implements \ArrayAccess, \Iterator
 			{
 				if (array_key_exists($p, $this->_original))
 				{
-					if (array_key_exists('data_type', $properties[$p]) and $properties[$p]['data_type'] == 'int')
+					if (array_key_exists('data_type', $properties[$p]) and ($properties[$p]['data_type'] == 'int') || $properties[$p]['data_type'] == 'numeric')
 					{
 						if ($this->{$p} != $this->_original[$p])
 						{
