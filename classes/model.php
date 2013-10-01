@@ -1893,11 +1893,16 @@ class Model implements \ArrayAccess, \Iterator
 			if (is_array($rel))
 			{
 				$array[$name] = array();
-				if ( ! empty($rel))
+				$vals = array_values($rel);
+				$class = get_class(array_shift($vals));
+				if ( ! empty($rel) && !in_array($class, static::$to_array_references))
 				{
-					foreach ($rel as $id => $r)
-					{
+					
 
+					static::$to_array_references[] = $class;
+					foreach ($rel as $id => $r)
+					{	
+						
 						$array[$name][] = $r->to_array($custom, true);
 					}
 					static::$to_array_references[] = get_class($r);
