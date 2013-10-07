@@ -150,6 +150,10 @@ class Model implements \ArrayAccess, \Iterator
 		return property_exists($class, '_connection') ? static::$_connection : null;
 	}
 
+	public static function clear_cache() {
+		static::$_cached_objects = array();
+	}
+
 	/**
 	 * Get the table name for this class
 	 *
